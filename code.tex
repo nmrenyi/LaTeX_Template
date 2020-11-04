@@ -1,0 +1,21 @@
+\begin{lstlisting}
+    li s0, 30          
+    li a0, 0x21
+    li a1, 0x7F
+    mv a2, ra
+    loop:
+        jal WRITE_SERIAL
+        addi a0, a0, 1
+        bne a0, a1, loop
+        jr a2
+    WRITE_SERIAL:                       
+        li t0, 0x10000000
+    .TESTW:
+        lb t1, %lo(5)(t0)
+        andi t1, t1, 0x20      
+        bne t1, zero, .WSERIAL         
+        j .TESTW                       
+    .WSERIAL:
+        sb a0, %lo(0)(t0)  
+        jr ra
+\end{lstlisting}
